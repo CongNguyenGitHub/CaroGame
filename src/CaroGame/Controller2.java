@@ -24,12 +24,14 @@ import javafx.scene.paint.Color;
 public class Controller2 extends Main implements Initializable {
     @FXML
     private GridPane grid;
-    final private char[][] board=new char[15][15];
+    final private char[][] board=new char[7][7];
     private boolean xTurn = true;
+    @FXML
+    private Label prompt;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(int i=0; i<15; i++) {
-            for(int j=0; j<15; j++) {
+        for(int i=0; i<7; i++) {
+            for(int j=0; j<7; j++) {
                 Label label = new Label();
                 label.setPrefSize(100, 100);
                 label.setAlignment(Pos.CENTER); // Căn giữa nội dung của label
@@ -47,11 +49,12 @@ public class Controller2 extends Main implements Initializable {
             char symbol = xTurn ? 'X' : 'O';
             node.setText(String.valueOf(symbol));
             if (symbol=='X'){
-                node.setTextFill(Color.BLUE);            
+                node.setTextFill(Color.BLUE);    
             }
             else {
                 node.setTextFill(Color.RED);
             }
+            prompt.setText(String.format("Nguoi choi %s đi", ((xTurn?'O':'X'))));
             board[row][col] = symbol;
             node.setDisable(true);
             if (checkWin(row, col, symbol)) {
@@ -61,25 +64,36 @@ public class Controller2 extends Main implements Initializable {
                 alert.setContentText(String.format("Người chơi %s đã thắng. Chơi lại để tiếp tục!",symbol));
                 
                 ButtonType reset=new ButtonType("Chơi lại");
-                ButtonType quit= new ButtonType("Thoát");
-                alert.getButtonTypes().setAll(reset,quit);
+                alert.getButtonTypes().setAll(reset);
                 Optional<ButtonType> result=alert.showAndWait();
                 if (result.isPresent() &&result.get()==reset){
                     resetGame();
-                }
-                else if(result.isPresent() &&result.get()==quit){                 
-                    this.resetGame();
-                    SceneManager.switchToScene1();
                 }
             } else {
                 xTurn = !xTurn;
             }
         }
     }
+    
+    public void quitGame(MouseEvent event){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh báo");
+        alert.setHeaderText("Bạn có chắc muốn thoát");
+        alert.setContentText(String.format("Tiến trình trò chơi sẽ mất hết nếu bạn thoát game"));
+        ButtonType keep=new ButtonType("Tiếp tục trò chơi");
+        ButtonType quit= new ButtonType("Thoát");
+        alert.getButtonTypes().setAll(keep,quit);
+        Optional<ButtonType> result=alert.showAndWait();
+        if (result.isPresent() &&result.get()==quit){
+            SceneManager.switchToScene1();
+            resetGame();
+        }
+    }
     private void resetGame() {
     // Đặt lại trạng thái của board
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
+        prompt.setText("Nguoi choi X đi");
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
                 board[i][j] = 0;
             }
         }
@@ -103,11 +117,11 @@ public class Controller2 extends Main implements Initializable {
 
     private boolean checkHorizontal(int row, int col, char symbol) {
         int count = 0;
-        for (int i = col - 4; i <= col + 4; i++) {
-            if (i < 0 || i >= 15) continue;
+        for (int i = col - 3; i <= col + 3; i++) {
+            if (i < 0 || i >= 7) continue;
             if (board[row][i] == symbol) {
                 count++;
-                if (count == 5) return true;
+                if (count == 4) return true;
             } else {
                 count = 0;
             }
@@ -117,11 +131,11 @@ public class Controller2 extends Main implements Initializable {
 
     private boolean checkVertical(int row, int col, char symbol) {
         int count = 0;
-        for (int i = row - 4; i <= row + 4; i++) {
-            if (i < 0 || i >= 15) continue;
+        for (int i = row - 3; i <= row + 3; i++) {
+            if (i < 0 || i >= 7) continue;
             if (board[i][col] == symbol) {
                 count++;
-                if (count == 5) return true;
+                if (count == 4) return true;
             } else {
                 count = 0;
             }
@@ -131,26 +145,26 @@ public class Controller2 extends Main implements Initializable {
 
     private boolean checkDiagonal(int row, int col, char symbol) {
         int count = 0;
-        for (int i = -4; i <= 4; i++) {
+        for (int i = -3; i <= 3; i++) {
             int newRow = row + i;
             int newCol = col + i;
-            if (newRow < 0 || newRow >= 15 || newCol < 0 || newCol >= 15) continue;
+            if (newRow < 0 || newRow >= 7 || newCol < 0 || newCol >= 7) continue;
             if (board[newRow][newCol] == symbol) {
                 count++;
-                if (count == 5) return true;
+                if (count == 4) return true;
             } else {
                 count = 0;
             }
         }
         
         count = 0;
-        for (int i = -4; i <= 4; i++) {
+        for (int i = -3; i <= 3; i++) {
             int newRow = row + i;
             int newCol = col - i;
-            if (newRow < 0 || newRow >= 15 || newCol < 0 || newCol >= 15) continue;
+            if (newRow < 0 || newRow >= 7 || newCol < 0 || newCol >= 7) continue;
             if (board[newRow][newCol] == symbol) {
                 count++;
-                if (count == 5) return true;
+                if (count == 4) return true;
             } else {
                 count = 0;
             }
