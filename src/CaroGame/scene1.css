@@ -1,0 +1,10 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.button{
+    -fx-background-color: #0074E4; /* Màu xanh đậm */
+    -fx-text-fill: white; /* Màu chữ trắng */
+    -fx-font-size: 14px; /* Kích thước font chữ */
+    -fx-padding: 10px 20px; /* Khoảng cách giữa nội dung và biên của nút */
+}

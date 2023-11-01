@@ -1,0 +1,22 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+
+.grid-pane .label {
+    -fx-font-size: 20px; /* Đổi kích thước font chữ */
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial, Helvetica, sans-serif";
+    -fx-alignment: center; /* Căn giữa nội dung của ô */
+    -fx-pref-width: 50; /* Độ rộng ưu tiên */
+    -fx-pref-height: 50; /* Độ cao ưu tiên */
+}
+.grid-pane .label:hover {
+    -fx-background-color: #FBC02D; /* Đổi màu nền khi di chuột vào */
+}
+.grid-pane {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000; /* Màu đường viền (ví dụ: đen) */
+    -fx-border-width: 1.5px 1.5px 1.5px 1.5px; /* Độ rộng đường viền cho trên, phải, dưới và trái */
+    -fx-border-style: solid; /* Kiểu của đường viền (solid, dashed, dotted, v.v.) */
+}
